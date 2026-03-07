@@ -8,9 +8,9 @@ using UnityEngine;
 
 namespace UnityEssentials
 {
-    public class SimpleTreeView : TreeView
+    public class SimpleTreeView : TreeView<int>
     {
-        public TreeViewState TreeViewState;
+        public TreeViewState<int> TreeViewState;
 
         public GenericMenu GlobalContextMenu;
         public bool ContextMenuHandled = false;
@@ -28,7 +28,7 @@ namespace UnityEssentials
             bool showBorder = false,
             bool showAlternatingRowBackgrounds = false,
             bool allowDuplicateNames = false)
-            : base(new TreeViewState())
+            : base(new TreeViewState<int>())
         {
             _allowDuplicateNames = allowDuplicateNames;
 
@@ -181,7 +181,7 @@ namespace UnityEssentials
             GUI.Label(labelPosition, label, isRoot ? EditorStyles.boldLabel : EditorStyles.label);
         }
 
-        protected override Rect GetRenameRect(Rect rowRect, int row, TreeViewItem item)
+        protected override Rect GetRenameRect(Rect rowRect, int row, TreeViewItem<int> item)
         {
             const float indentWidth = 16;
             float indent = item.depth * indentWidth + 16;
@@ -252,10 +252,10 @@ namespace UnityEssentials
             }
         }
 
-        protected override TreeViewItem BuildRoot()
+        protected override TreeViewItem<int> BuildRoot()
         {
-            var root = new TreeViewItem { id = -1, depth = -1, displayName = string.Empty };
-            root.children = new List<TreeViewItem>() { RootItem };
+            var root = new TreeViewItem<int> { id = -1, depth = -1, displayName = string.Empty };
+            root.children = new List<TreeViewItem<int>>() { RootItem };
             SetupDepthsFromParentsAndChildren(root);
             return root;
         }
@@ -344,7 +344,7 @@ namespace UnityEssentials
             return false;
         }
 
-        protected override bool CanRename(TreeViewItem item) =>
+        protected override bool CanRename(TreeViewItem<int> item) =>
             item is SimpleTreeViewItem && (item as SimpleTreeViewItem).SupportsRenaming;
 
         protected override void RenameEnded(RenameEndedArgs args)

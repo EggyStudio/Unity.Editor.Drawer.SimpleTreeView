@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace UnityEssentials
 {
-    public class SimpleTreeViewItem : TreeViewItem
+    public class SimpleTreeViewItem : TreeViewItem<int>
     {
         public Type[] SupportsTypes = null;
         public bool SupportsChildren = true;
@@ -113,7 +113,12 @@ namespace UnityEssentials
         public List<SimpleTreeViewItem> Children =>
             children?.Cast<SimpleTreeViewItem>().ToList() ?? new List<SimpleTreeViewItem>();
 
-        public SimpleTreeViewItem() : base(Guid.NewGuid().GetHashCode(), 1, "TreeViewItem") { }
+        public SimpleTreeViewItem()
+        {
+            id = Guid.NewGuid().GetHashCode();
+            depth = 1;
+            displayName = "TreeViewItem";
+        }
 
         private void GetUniqueName()
         {
